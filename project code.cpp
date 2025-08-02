@@ -49,11 +49,22 @@ private:
 public:
     ShoppingSystem() : currentUser(nullptr) {
         // Initialize some sample products
-        products.push_back(Product(1, "Laptop", 999.99, 10));
-        products.push_back(Product(2, "Smartphone", 499.99, 20));
-        products.push_back(Product(3, "Headphones", 79.99, 50));
-        products.push_back(Product(4, "Tablet", 299.99, 15));
-        products.push_back(Product(5, "Charging Cable", 29.99, 65));
+        products.push_back(Product(1, "Laptop", 51000, 10));
+        products.push_back(Product(2, "Smartphone", 15000, 20));
+        products.push_back(Product(3, "Headphones", 1600, 50));
+        products.push_back(Product(4, "Tablet", 9000, 15));
+        products.push_back(Product(5, "Charging Cable", 1200, 65));
+        products.push_back(Product(5, "Rice (5kg)", 650, 50));
+        products.push_back(Product(6, "Oil (1L)", 200, 60));
+        products.push_back(Product(7, "Milk (1L)", 120, 100));
+        products.push_back(Product(8, "Sugar (1kg)", 120, 80));
+        products.push_back(Product(9, "T-shirt", 500, 30));
+        products.push_back(Product(10,"Jeans", 1300, 25));
+        products.push_back(Product(11,"Jacket", 2500, 15));
+        products.push_back(Product(12,"Sneakers", 2000, 20));
+        products.push_back(Product(13,"Burger", 200, 40));
+        products.push_back(Product(14,"Pizza", 500, 30));
+        products.push_back(Product(15,"Fries", 130, 50));
         loadUsers();
     }
 
@@ -325,7 +336,7 @@ public:
              << setw(15) << itemTotal << endl;
         }
         cout << string(65, '-') << endl;
-        cout << "Total: $" << fixed << setprecision(2) << total << endl;
+        cout << "Total: Rs. " << fixed << setprecision(2) << total << endl;
     }
 
     // Checkout
@@ -471,4 +482,5 @@ int main() {
     }
 
     return 0;
+
 }
