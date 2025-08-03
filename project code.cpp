@@ -52,8 +52,7 @@ public:
         products.push_back(Product(1, "Laptop", 51000, 10));
         products.push_back(Product(2, "Smartphone", 15000, 20));
         products.push_back(Product(3, "Headphones", 1600, 50));
-        products.push_back(Product(4, "Tablet", 9000, 15));
-        products.push_back(Product(5, "Charging Cable", 1200, 65));
+        products.push_back(Product(4, "Charging Cable", 1200, 65));
         products.push_back(Product(5, "Rice (5kg)", 650, 50));
         products.push_back(Product(6, "Oil (1L)", 200, 60));
         products.push_back(Product(7, "Milk (1L)", 120, 100));
@@ -374,113 +373,126 @@ public:
 // Main menu function
 void displayMenu() {
     cout << "\nOnline Shopping Center\n";
-    cout << "1. Register\n";
-    cout << "2. Login\n";
-    cout << "3. Logout\n";
-    cout << "4. View Products\n";
-    cout << "5. Add to Cart\n";
-    cout << "6. Edit Cart Quantity\n";
-    cout << "7. Remove from Cart\n";
-    cout << "8. Clear Cart\n";
-    cout << "9. View Cart\n";
-    cout << "10. Checkout\n";
-    cout << "11. Exit\n";
-    cout << "Enter your choice: ";
+    cout << "----------------------\n";
+   
+    cout << "1. View Products\n";
+    cout << "2. Add to Cart\n";
+    cout << "3. Edit Cart Quantity\n";
+    cout << "4. Remove from Cart\n";
+    cout << "5. Clear Cart\n";
+    cout << "6. View Cart\n";
+    cout << "7. Checkout\n";
+    cout << "8. Logout\n";
+    cout << "9. Exit\n";
+    cout << "\nEnter your choice: ";
 }
 
 int main() {
     ShoppingSystem system;
-    int choice;
+
     string username, password;
+    int choice;
     int productId, quantity;
 
     while (true) {
-        displayMenu();
+        // Show login/register menu first
+        cout << "\nOnline Shopping Center\n";
+        cout << "----------------------\n";
+        cout << "1. Login\n";
+        cout << "2. Register\n";
+        cout << "3. Exit\n";
+        cout << "\nEnter your choice: ";
         cin >> choice;
-        cin.ignore(); // Clear input buffer
+        cin.ignore();
 
-        switch (choice) {
-            case 1: // Register
-                cout << "Enter username: ";
-                getline(cin, username);
-                cout << "Enter password: ";
-                getline(cin, password);
-                system.registerUser(username, password);
-                break;
+        if (choice == 1) {
+            cout << "Enter username: ";
+            getline(cin, username);
+            cout << "Enter password: ";
+            getline(cin, password);
 
-            case 2: // Login
-                cout << "Enter username: ";
-                getline(cin, username);
-                cout << "Enter password: ";
-                getline(cin, password);
-                system.login(username, password);
-                break;
+            if (system.login(username, password)) {
+                // If login success, enter shopping menu
+                while (system.isLoggedIn()) {
+                    displayMenu();
+                    cin >> choice;
+                    cin.ignore();
 
-            case 3: // Logout
-                system.logout();
-                break;
+                    switch (choice) {
 
-            case 4: // View Products
-                system.displayProducts();
-                break;
+                        case 1:
+                            system.displayProducts();
+                            break;
 
-            case 5: // Add to Cart
-                system.displayProducts();
-                cout << "Enter product ID: ";
-                cin >> productId;
-                cout << "Enter quantity: ";
-                cin >> quantity;
-                if (quantity <= 0) {
-                    cout << "Invalid quantity!\n";
-                    break;
+                        case 2:
+                            system.displayProducts();
+                            cout << "Enter product ID: ";
+                            cin >> productId;
+                            cout << "Enter quantity: ";
+                            cin >> quantity;
+                            system.addToCart(productId, quantity);
+                            break;
+
+                        case 3:
+                            system.viewCart();
+                            cout << "Enter product ID to edit: ";
+                            cin >> productId;
+                            cout << "Enter new quantity: ";
+                            cin >> quantity;
+                            system.editCartQuantity(productId, quantity);
+                            break;
+
+                        case 4:
+                            system.viewCart();
+                            cout << "Enter product ID to remove: ";
+                            cin >> productId;
+                            system.removeFromCart(productId);
+                            break;
+
+                        case 5:
+                            system.clearCart();
+                            break;
+
+                        case 6:
+                            system.viewCart();
+                            break;
+
+                        case 7:
+                            system.checkout();
+                            break;
+
+                        case 8:
+                            cout << "Logging out...\n";
+                            system.logout();
+                            break;
+                        
+                        case 9:
+                            cout << "Thank you for using Online Shopping Center!\n";
+                            return 0;
+
+                        default:
+                            cout << "Invalid option, try again.\n";
+                    }
                 }
-                system.addToCart(productId, quantity);
-                break;
-            
-            
-
-            case 6: // Edit Cart Quantity
-                system.viewCart();
-                cout << "Enter product ID to edit: ";
-                cin >> productId;
-                cout << "Enter new quantity: ";
-                cin >> quantity;
-                if (quantity <= 0) {
-                    cout << "Invalid quantity!\n";
-                    break;
-                }
-                system.editCartQuantity(productId, quantity);
-                break;
-    
-
-            case 7: // Remove from Cart
-                system.viewCart();
-                cout << "Enter product ID to remove: ";
-                cin >> productId;
-                system.removeFromCart(productId);
-                break;
-    
-            case 8: // Clear Cart
-                system.clearCart();
-                break;
-            
-            case 9: // View Cart
-                system.viewCart();
-                break;
-
-            case 10: // Checkout
-                system.checkout();
-                break;
-
-            case 11: // Exit
-                cout << "Thank you for using Online Shopping Center!\n";
-                return 0;
-
-            default:
-                cout << "Invalid choice! Please try again.\n";
+            }
+            else {
+                cout << "Login failed. Try again or register.\n";
+            }
+        }
+        else if (choice == 2) {
+            cout << "Enter username: ";
+            getline(cin, username);
+            cout << "Enter password: ";
+            getline(cin, password);
+            system.registerUser(username, password);
+        }
+        else if (choice == 3) {
+            cout << "Goodbye!\n";
+            break;
+        }
+        else {
+            cout << "Invalid choice. Try again.\n";
         }
     }
-
     return 0;
-
 }
