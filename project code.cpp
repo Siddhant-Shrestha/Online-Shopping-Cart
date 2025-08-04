@@ -4,8 +4,38 @@
 #include <iomanip>
 #include <fstream>
 #include <sstream>
+#include <limits>
 
 using namespace std;
+
+int getValidatedInt(const string& prompt, int minVal = INT_MIN, int maxVal = INT_MAX) {
+    string input;
+    int value;
+    while (true) {
+        cout << prompt;
+        getline(cin, input);
+        stringstream ss(input);
+        if (ss >> value && !(ss >> input) && value >= minVal && value <= maxVal) {
+            return value;
+        }
+        cout << "Invalid input. Please enter a valid number";
+        if (minVal != INT_MIN || maxVal != INT_MAX)
+            cout << " (" << minVal << " to " << maxVal << ")";
+        cout << ".\n";
+    }
+}
+
+string getValidatedString(const string& prompt) {
+    string input;
+    while (true) {
+        cout << prompt;
+        getline(cin, input);
+        if (!input.empty()) return input;
+        cout << "Input cannot be empty. Please try again.\n";
+    }
+}
+
+
 
 // Product class to store product details
 class Product {
@@ -384,68 +414,56 @@ void displayMenu() {
     cout << "7. Checkout\n";
     cout << "8. Logout\n";
     cout << "9. Exit\n";
-    cout << "\nEnter your choice: ";
 }
 
 int main() {
     ShoppingSystem system;
-
     string username, password;
     int choice;
     int productId, quantity;
 
     while (true) {
-        // Show login/register menu first
         cout << "\nOnline Shopping Center\n";
         cout << "----------------------\n";
         cout << "1. Login\n";
         cout << "2. Register\n";
         cout << "3. Exit\n";
-        cout << "\nEnter your choice: ";
-        cin >> choice;
-        cin.ignore();
+        
+        choice = getValidatedInt("Enter your choice: ", 1, 3);
 
         if (choice == 1) {
-            cout << "Enter username: ";
-            getline(cin, username);
-            cout << "Enter password: ";
-            getline(cin, password);
+            username = getValidatedString("Enter username: ");
+            password = getValidatedString("Enter password: ");
 
             if (system.login(username, password)) {
-                // If login success, enter shopping menu
+                // Logged in, show menu
                 while (system.isLoggedIn()) {
                     displayMenu();
-                    cin >> choice;
-                    cin.ignore();
+
+                    choice = getValidatedInt("Enter your choice: ", 1, 9);
 
                     switch (choice) {
-
                         case 1:
                             system.displayProducts();
                             break;
 
                         case 2:
                             system.displayProducts();
-                            cout << "Enter product ID: ";
-                            cin >> productId;
-                            cout << "Enter quantity: ";
-                            cin >> quantity;
+                            productId = getValidatedInt("Enter product ID: ",1 ,15);
+                            quantity = getValidatedInt("Enter quantity: ", 1);
                             system.addToCart(productId, quantity);
                             break;
 
                         case 3:
                             system.viewCart();
-                            cout << "Enter product ID to edit: ";
-                            cin >> productId;
-                            cout << "Enter new quantity: ";
-                            cin >> quantity;
+                            productId = getValidatedInt("Enter product ID to edit: ",1 ,15);
+                            quantity = getValidatedInt("Enter new quantity: ", 1);
                             system.editCartQuantity(productId, quantity);
                             break;
 
                         case 4:
                             system.viewCart();
-                            cout << "Enter product ID to remove: ";
-                            cin >> productId;
+                            productId = getValidatedInt("Enter product ID to remove: ",1 ,15);
                             system.removeFromCart(productId);
                             break;
 
@@ -462,36 +480,24 @@ int main() {
                             break;
 
                         case 8:
-                            cout << "Logging out...\n";
                             system.logout();
                             break;
-                        
+
                         case 9:
                             cout << "Thank you for using Online Shopping Center!\n";
                             return 0;
-
-                        default:
-                            cout << "Invalid option, try again.\n";
                     }
                 }
-            }
-            else {
+            } else {
                 cout << "Login failed. Try again or register.\n";
             }
-        }
-        else if (choice == 2) {
-            cout << "Enter username: ";
-            getline(cin, username);
-            cout << "Enter password: ";
-            getline(cin, password);
+        } else if (choice == 2) {
+            username = getValidatedString("Enter username: ");
+            password = getValidatedString("Enter password: ");
             system.registerUser(username, password);
-        }
-        else if (choice == 3) {
-            cout << "Goodbye!\n";
+        } else if (choice == 3) {
+            cout << "Thank you for using Online Shopping Center!\n";
             break;
-        }
-        else {
-            cout << "Invalid choice. Try again.\n";
         }
     }
     return 0;
