@@ -51,5 +51,4 @@ A simple yet functional console-based shopping system built using C++. This appl
 
 ## 📝 License
 
-This project is licensed under the **MIT License**.  
-See the [LICENSE](LICENSE) file for full details.
+This project is licensed under the **MIT License**.
