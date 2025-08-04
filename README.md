@@ -39,11 +39,11 @@ A simple yet functional console-based shopping system built using C++. This appl
 - Laptop, Smartphone, Headphones, Rice, Oil, Milk, T-shirt, etc.
 
 ---
+## Future Improvemnents
 
-## 🖥️ How to Run
+- Add password hashing for better security.
+- Integrate GUI using Qt or a web front-end.
+- Implement product filtering and search.
+- Add admin features for product management.
 
-1. **Clone this repository:**
-   ```bash
-   git clone https://github.com/yourusername/online-shopping-center.git
-   cd online-shopping-center
-
+---
