@@ -47,3 +47,9 @@ A simple yet functional console-based shopping system built using C++. This appl
 - Add admin features for product management.
 
 ---
+
+
+## 📝 License
+
+This project is licensed under the **MIT License**.  
+See the [LICENSE](LICENSE) file for full details.
